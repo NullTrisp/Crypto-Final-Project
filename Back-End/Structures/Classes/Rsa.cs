@@ -9,9 +9,14 @@ namespace Back_End.Structures.Classes
 {
     public class Rsa
     {
-        public static string Decrypt(RSAParameters RSAParams, string encryptedString)
+        public static string Decrypt(byte[] Data, RSAParameters RSAKey)
         {
-            return Encoding.UTF8.GetString(Decrypt(Encoding.ASCII.GetBytes(encryptedString), RSAParams, true));
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+
+            RSAParameters key = RSAKey;
+            byte[] text = Data;
+            byte[] resultado = Decrypt(text, key, false);
+            return Encoding.Default.GetString(resultado);
         }
 
         private static byte[] Decrypt(byte[] DataToDecrypt, RSAParameters RSAKeyInfo, bool DoOAEPPadding)
