@@ -9,32 +9,26 @@ namespace Back_End.Structures.Classes
 {
     public class Rsa
     {
-        public static string Decrypt(byte[] Data, RSAParameters RSAKey)
+        public static string Decrypt(string encryptedString, RSAParameters Params)
         {
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-
-            RSAParameters key = RSAKey;
-            byte[] text = Data;
-            byte[] resultado = Decrypt(text, key, false);
-            return Encoding.Default.GetString(resultado);
+            return Encoding.Default.GetString(Decrypt(Convert.FromBase64String(Base64Decode(encryptedString)), Params, false));
         }
 
         private static byte[] Decrypt(byte[] DataToDecrypt, RSAParameters RSAKeyInfo, bool DoOAEPPadding)
         {
             byte[] decryptedData;
-            //Create a new instance of RSACryptoServiceProvider.
             using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(2048))
             {
-                //Import the RSA Key information. This needs
-                //to include the private key information.
                 RSA.ImportParameters(RSAKeyInfo);
 
-                //Decrypt the passed byte array and specify OAEP padding.  
-                //OAEP padding is only available on Microsoft Windows XP or
-                //later.  
                 decryptedData = RSA.Decrypt(DataToDecrypt, DoOAEPPadding);
             }
             return decryptedData;
+        }
+
+        private static string Base64Decode(string encodedData)
+        {
+            return Encoding.UTF8.GetString(Convert.FromBase64String(encodedData));
         }
     }
 }

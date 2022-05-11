@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Frontend
 {
-    class PrivateKey
+    public class PrivateKey
     {
         public string Modulus { get; set; }
         public string Exponent { get; set; }
