@@ -1,8 +1,8 @@
-let privateKey, encryptedString, algoType = "Rsa";
+let privateKey, encryptedString, algoType;
 
 document.getElementById("algo-select").addEventListener('change', ({ target }) => {
     algoType = target.value;
-    console.log(algoType);
+    document.getElementById("private-key").disabled = false;
 })
 
 document.getElementById('private-key').addEventListener('change', ({ target }) => {
@@ -11,16 +11,29 @@ document.getElementById('private-key').addEventListener('change', ({ target }) =
     reader.onloadend = async () => {
         const xml = htmlDecode(String(reader.result));
 
-        privateKey = {
-            Modulus: getXmlNode(xml, 'Modulus'),
-            Exponent: getXmlNode(xml, 'Exponent'),
-            P: getXmlNode(xml, 'P'),
-            Q: getXmlNode(xml, 'Q'),
-            DP: getXmlNode(xml, 'DP'),
-            DQ: getXmlNode(xml, 'DQ'),
-            InverseQ: getXmlNode(xml, 'InverseQ'),
-            D: getXmlNode(xml, 'D')
+        switch (algoType) {
+            case "Rsa":
+                privateKey = {
+                    Modulus: getXmlNode(xml, 'Modulus'),
+                    Exponent: getXmlNode(xml, 'Exponent'),
+                    P: getXmlNode(xml, 'P'),
+                    Q: getXmlNode(xml, 'Q'),
+                    DP: getXmlNode(xml, 'DP'),
+                    DQ: getXmlNode(xml, 'DQ'),
+                    InverseQ: getXmlNode(xml, 'InverseQ'),
+                    D: getXmlNode(xml, 'D')
+                }
+                break;
+            case "ECDiffiehellman":
+                privateKey = {
+                    IV: getXmlNode(xml, 'IV'),
+                    Key: getXmlNode(xml, 'Key')
+                };
+                break;
+            default:
+                break;
         }
+
         document.getElementById('txt').disabled = false;
     };
 });
@@ -37,7 +50,7 @@ document.getElementById('txt').addEventListener('change', ({ target }) => {
 document.getElementById('btn-decrypt').addEventListener('click', async () => {
     const div = document.getElementById("decrypted");
 
-    div.innerHTML = await decryptRequest("/api/Rsa", {
+    div.innerHTML = await decryptRequest(`/api/${algoType}`, {
         privateKey,
         encryptedString
     });

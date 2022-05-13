@@ -2,6 +2,7 @@
 <div id="content">
     <label for="algo-select">Select algorithm</label>
     <select name="algo-select" id="algo-select">
+        <option value="" selected disabled hidden>Select algorithm</option>
         <option value="Rsa">RSA</option>
         <option value="Dsa">DSA</option>
         <option value="ECDiffiehellman">ECDiffieHellman</option>
@@ -9,7 +10,7 @@
         <option value="ECDsa">ECDsa</option>
     </select>
     <label for="private-key">Load Private key:</label>
-    <input type="file" id="private-key" name="private-key" accept="text/xml">
+    <input type="file" id="private-key" name="private-key" accept="text/xml" disabled>
     <label for="txt">Load txt string:</label>
     <input type="file" id="txt" name="txt" accept=".txt" disabled>
     <button id="btn-decrypt" disabled>Decrypt!</button>
