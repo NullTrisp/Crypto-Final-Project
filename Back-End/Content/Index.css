@@ -1,0 +1,13 @@
+#content:not(button) {
+  padding-top: 50px;
+  padding-bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+
+#btn-decrypt {
+  grid-column: 1 / span 2;
+  margin-left: auto;
+  margin-right: auto;
+}

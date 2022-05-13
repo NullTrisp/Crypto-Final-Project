@@ -1,70 +1,18 @@
-﻿<div id="content">
+﻿<link rel="stylesheet" href="../Content/Index.css">
+<div id="content">
+    <label for="algo-select">Select algorithm</label>
+    <select name="algo-select" id="algo-select">
+        <option value="Rsa">RSA</option>
+        <option value="Dsa">DSA</option>
+        <option value="ECDiffiehellman">ECDiffieHellman</option>
+        <option value="ECAlgorithm">ECAlgorithm</option>
+        <option value="ECDsa">ECDsa</option>
+    </select>
     <label for="private-key">Load Private key:</label>
     <input type="file" id="private-key" name="private-key" accept="text/xml">
     <label for="txt">Load txt string:</label>
-    <input type="file" id="txt" name="txt" accept="text/txt" disabled>
-
-    <button id="btn-decrypt">Decrypt!</button>
+    <input type="file" id="txt" name="txt" accept=".txt" disabled>
+    <button id="btn-decrypt" disabled>Decrypt!</button>
+    <div id="decrypted" hidden></div>
+    <script src="../Scripts/Index.js" type="text/javascript"></script>
 </div>
-
-
-<script>
-    let privateKey, encryptedString;
-    document.getElementById('private-key').addEventListener('change', (event) => {
-        const reader = new FileReader();
-        reader.readAsText(event.target.files[0]);
-        reader.onloadend = async () => {
-            const xml = htmlDecode(String(reader.result));
-
-            privateKey = {
-                Modulus: getXmlNode(xml, 'Modulus'),
-                Exponent: getXmlNode(xml, 'Exponent'),
-                P: getXmlNode(xml, 'P'),
-                Q: getXmlNode(xml, 'Q'),
-                DP: getXmlNode(xml, 'DP'),
-                DQ: getXmlNode(xml, 'DQ'),
-                InverseQ: getXmlNode(xml, 'InverseQ'),
-                D: getXmlNode(xml, 'D')
-            }
-            document.getElementById('txt').disabled = false;
-        };
-    });
-
-    document.getElementById('txt').addEventListener('change', (event) => {
-        const reader = new FileReader();
-        reader.readAsText(event.target.files[0]);
-        reader.onloadend = async () => {
-            encryptedString = String(reader.result);
-        };
-    })
-
-    document.getElementById('btn-decrypt').addEventListener('click', () => {
-        
-        console.log(await decryptRequest("/api/Rsa", {
-            privateKey,
-            encryptedString
-        }));
-    })
-
-    function htmlDecode(input) {
-        const e = document.createElement('textarea');
-        e.innerHTML = input;
-        return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
-    }
-
-    function getXmlNode(xml, nodeName) {
-        return xml.split("<" + nodeName + ">")[1].split("</" + nodeName + ">")[0];
-    }
-
-    async function decryptRequest(url, data) {
-        const config = {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: "POST",
-            body: JSON.stringify(data)
-        };
-        return await (await fetch(url, config)).json();
-    }
-</script>
