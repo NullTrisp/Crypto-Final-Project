@@ -32,11 +32,25 @@ namespace Back_End.Controllers
 
         // POST api/<controller>
         [Route("api/Rsa/Decrypt")]
-        public string Post([FromBody] RsaDecryptRequest req)
+        public string Decrypt([FromBody] RsaDecryptRequest req)
         {
             try
             {
                 return Rsa.Decrypt(req.encryptedString, req.privateKey);
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
+        // POST api/<controller>
+        [Route("api/Rsa/Encrypt")]
+        public string Encrypt([FromBody] RsaDecryptRequest req)
+        {
+            try
+            {
+                return Rsa.Encrypt(req.encryptedString, req.privateKey);
             }
             catch (Exception ex)
             {

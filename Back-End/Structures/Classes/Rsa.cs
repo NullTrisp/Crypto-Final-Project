@@ -15,12 +15,23 @@ namespace Back_End.Structures.Classes
 
             rsa.FromXmlString(key);
 
-            return Encoding.UTF8.GetString(rsa.Encrypt(Encoding.ASCII.GetBytes(textToEncrypt), false));
+            return Base64Encode(Convert.ToBase64String(
+                rsa.Encrypt(
+                    Convert.FromBase64String(Base64Encode(textToEncrypt)),
+                    false)
+                ));
         }
 
         public static string Decrypt(string encryptedString, string Params)
         {
-            return Encoding.Default.GetString(Decrypt(Convert.FromBase64String(Base64Decode(encryptedString)), Params, false));
+            return Encoding.Default.GetString(
+                Decrypt(
+                    Convert.FromBase64String(
+                        Base64Decode(encryptedString)
+                        ),
+                    Params,
+                    false)
+                );
         }
 
         private static byte[] Decrypt(byte[] DataToDecrypt, string RSAKeyInfo, bool DoOAEPPadding)
@@ -38,6 +49,11 @@ namespace Back_End.Structures.Classes
         private static string Base64Decode(string encodedData)
         {
             return Encoding.UTF8.GetString(Convert.FromBase64String(encodedData));
+        }
+
+        private static string Base64Encode(string dataToEncode)
+        {
+            return Convert.ToBase64String(Encoding.Default.GetBytes(dataToEncode));
         }
     }
 }
