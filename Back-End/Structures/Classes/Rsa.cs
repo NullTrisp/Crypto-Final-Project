@@ -9,17 +9,26 @@ namespace Back_End.Structures.Classes
 {
     public class Rsa
     {
-        public static string Decrypt(string encryptedString, RSAParameters Params)
+        public static string Encrypt(string textToEncrypt, string key)
+        {
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(1024);
+
+            rsa.FromXmlString(key);
+
+            return Encoding.UTF8.GetString(rsa.Encrypt(Encoding.ASCII.GetBytes(textToEncrypt), false));
+        }
+
+        public static string Decrypt(string encryptedString, string Params)
         {
             return Encoding.Default.GetString(Decrypt(Convert.FromBase64String(Base64Decode(encryptedString)), Params, false));
         }
 
-        private static byte[] Decrypt(byte[] DataToDecrypt, RSAParameters RSAKeyInfo, bool DoOAEPPadding)
+        private static byte[] Decrypt(byte[] DataToDecrypt, string RSAKeyInfo, bool DoOAEPPadding)
         {
             byte[] decryptedData;
-            using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(2048))
+            using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
             {
-                RSA.ImportParameters(RSAKeyInfo);
+                RSA.FromXmlString(RSAKeyInfo);
 
                 decryptedData = RSA.Decrypt(DataToDecrypt, DoOAEPPadding);
             }

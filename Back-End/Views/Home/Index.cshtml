@@ -1,21 +1,17 @@
 ﻿<link rel="stylesheet" href="../Content/Index.css" />
 <div id="content">
-  <button
-    onclick="
+  <button onclick="
     document.getElementById('actions-content').style.display='block';
     document.getElementById('algo-select').value = '';
     document.getElementById('encrypt').style.display = 'grid';
-    document.getElementById('decrypt').style.display = 'none';"
-  >
+    document.getElementById('decrypt').style.display = 'none';">
     Encrypt
   </button>
-  <button
-    onclick="
+  <button onclick="
     document.getElementById('actions-content').style.display='block';
     document.getElementById('algo-select').value = '';
     document.getElementById('decrypt').style.display = 'grid';
-    document.getElementById('encrypt').style.display = 'none';"
-  >
+    document.getElementById('encrypt').style.display = 'none';">
     Decrypt
   </button>
   <div id="actions-content">
@@ -31,36 +27,20 @@
 
     <div id="decrypt">
       <label for="private-key">Load Private key:</label>
-      <input
-        type="file"
-        id="private-key"
-        name="private-key"
-        accept="text/xml"
-        disabled
-      />
+      <input type="file" id="private-key" name="private-key" accept="text/xml" disabled onchange="decryptGetPrivateKey(event)"/>
+      <textarea name="private-key-text" id="private-key-text" cols="600" rows="5"></textarea>
       <label for="txt">Load txt string:</label>
-      <input type="file" id="txt" name="txt" accept=".txt" disabled />
-      <button id="btn-decrypt" disabled>Decrypt!</button>
+      <input type="file" id="txt" name="txt" accept=".txt" disabled onchange="decryptGetTxt(event)"/>
+      <textarea name="txt-text" id="txt-text" cols="600" rows="5"></textarea>
+      <button id="btn-decrypt" disabled onclick="decrypt()">Decrypt!</button>
       <div id="decrypted" hidden></div>
     </div>
 
     <div id="encrypt">
       <label for="txt-to-encrypt">Load txt to encrypt:</label>
-      <input
-        type="file"
-        id="txt-to-encrypt"
-        name="txt-to-encrypt"
-        accept=".txt"
-        disabled
-      />
+      <input type="file" id="txt-to-encrypt" name="txt-to-encrypt" accept=".txt" disabled />
       <label for="encrypt-key">Load Private key:</label>
-      <input
-        type="file"
-        id="encrypt-key"
-        name="encrypt-key"
-        accept="text/xml"
-        disabled
-      />
+      <input type="file" id="encrypt-key" name="encrypt-key" accept="text/xml" disabled />
       <button id="btn-encrypt" disabled>Encrypt!</button>
     </div>
   </div>

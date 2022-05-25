@@ -13,7 +13,7 @@ namespace Back_End.Controllers
 {
     public class RsaDecryptRequest
     {
-        public PrivateKey privateKey { get; set; }
+        public string privateKey { get; set; }
         public string encryptedString { get; set; }
     }
     public class RsaController : ApiController
@@ -31,21 +31,12 @@ namespace Back_End.Controllers
         }
 
         // POST api/<controller>
+        [Route("api/Rsa/Decrypt")]
         public string Post([FromBody] RsaDecryptRequest req)
         {
             try
             {
-                return Rsa.Decrypt(req.encryptedString, new RSAParameters()
-                {
-                    Modulus = Convert.FromBase64String(req.privateKey.Modulus),
-                    Exponent = Convert.FromBase64String(req.privateKey.Exponent),
-                    P = Convert.FromBase64String(req.privateKey.P),
-                    Q = Convert.FromBase64String(req.privateKey.Q),
-                    DP = Convert.FromBase64String(req.privateKey.DP),
-                    DQ = Convert.FromBase64String(req.privateKey.DQ),
-                    InverseQ = Convert.FromBase64String(req.privateKey.InverseQ),
-                    D = Convert.FromBase64String(req.privateKey.D),
-                });
+                return Rsa.Decrypt(req.encryptedString, req.privateKey);
             }
             catch (Exception ex)
             {

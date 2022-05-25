@@ -1,20 +1,26 @@
-#content:not(button),
-#decrypt,
+/* #content:not(button),
 #encrypt {
   padding-top: 50px;
   padding-bottom: 20px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
 }
+
+#decrypt {
+  grid-template-columns: repeat(3, 1fr);
+} */
 
 #actions-content {
   display: none;
 }
-
+textarea {
+  max-width: 2000px;
+}
+/* 
 #btn-decrypt,
 #btn-encrypt {
   grid-column: 1 / span 2;
   margin-left: auto;
   margin-right: auto;
-}
+} */
