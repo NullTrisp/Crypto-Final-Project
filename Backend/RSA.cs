@@ -7,34 +7,48 @@ using System.Threading.Tasks;
 
 namespace Backend
 {
-    public class RSA
+    public class Rsa
     {
-        public static string Decrypt(string privateKey, string encryptedString)
+        public string Key { get; set; }
+        public string Txt { get; set; }
+
+        public string Encrypt()
         {
-            byte[] decryptedData;
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(1024);
 
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(2048);
-            rsa.FromXmlString(privateKey);
-            rsa.ImportParameters(new RSAParameters()
-            {
-                Modulus = Encoding.ASCII.GetBytes("t3wHJ20FIxJLF862VXhdJVKJBrNuPHYzNgVEoplwaqZCXg85Y1UBcWsLFo2z2Kw2+inuFQq7i0nWPc5HdbsarJO4QMl6+p8QO4vggvRe/LyOLu2F9woSy22jcCywN7UM8cX5aKcVy5eKYjRXtCarda1gQAp4+JH/y3KsQYwOkP0="),
-            });
+            rsa.FromXmlString(this.Key);
 
-            var encryptedData = Encoding.ASCII.GetBytes(encryptedString);
-            decryptedData = rsa.Decrypt(encryptedData, true);
-
-            return Encoding.UTF8.GetString(decryptedData);
+            return Base64Encode(Convert.ToBase64String(
+                rsa.Encrypt(
+                    Convert.FromBase64String(Base64Encode(this.Txt)),
+                    false)
+                ));
         }
 
-        private static byte[] Decryption(byte[] data, RSAParameters RSAKey, bool fOAEP)
+        public string Decrypt()
         {
             byte[] decryptedData;
-            using (RSACryptoServiceProvider rSACryptoServiceProvider = new RSACryptoServiceProvider())
+            using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
             {
-                rSACryptoServiceProvider.ImportParameters(RSAKey);
-                decryptedData = rSACryptoServiceProvider.Decrypt(data, fOAEP);
+                RSA.FromXmlString(this.Key);
+
+                decryptedData = RSA.Decrypt(
+                    Convert.FromBase64String(
+                        Base64Decode(this.Txt)
+                        ), false);
             }
-            return decryptedData;
+
+            return Encoding.Default.GetString(decryptedData);
+        }
+
+        private string Base64Decode(string encodedData)
+        {
+            return Encoding.UTF8.GetString(Convert.FromBase64String(encodedData));
+        }
+
+        private string Base64Encode(string dataToEncode)
+        {
+            return Convert.ToBase64String(Encoding.Default.GetBytes(dataToEncode));
         }
     }
 }

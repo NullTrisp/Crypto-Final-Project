@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend
 {
-    class Program
+    internal class Program
     {
         static void Main(string[] args)
         {

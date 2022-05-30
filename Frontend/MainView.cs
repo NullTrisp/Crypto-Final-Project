@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Backend;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,8 +13,6 @@ namespace Frontend
 {
     public partial class MainView : Form
     {
-        private PrivateKey privateKey;
-        private string textToDecrypt;
         public MainView()
         {
             InitializeComponent();
@@ -27,15 +24,7 @@ namespace Frontend
 
         private void openFileXml_FileOk(object sender, CancelEventArgs e)
         {
-            this.privateKey = XmlHandler.LoadPrivateKeyXml(this.openFileXml.FileName);
-            this.privateKeyText.Text = "Modulus: " + this.privateKey.Modulus;
-            this.privateKeyText.Text += "\nExponent: " + this.privateKey.Exponent;
-            this.privateKeyText.Text += "\nP: " + this.privateKey.P;
-            this.privateKeyText.Text += "\nQ: " + this.privateKey.Q;
-            this.privateKeyText.Text += "\nDP: " + this.privateKey.DP;
-            this.privateKeyText.Text += "\nDQ: " + this.privateKey.DQ;
-            this.privateKeyText.Text += "\nInverseQ: " + this.privateKey.InverseQ;
-            this.privateKeyText.Text += "\nD: " + this.privateKey.D;
+            this.privateKeyText.Text = XmlHandler.LoadPrivateKey(this.openFileXml.FileName);
 
             this.importTxtBtn.Enabled = true;
         }
@@ -53,16 +42,49 @@ namespace Frontend
         private void openFileTxt_FileOk(object sender, CancelEventArgs e)
         {
             this.txtText.Text = System.IO.File.ReadAllText(this.openFileTxt.FileName);
-            this.textToDecrypt = this.txtText.Text;
-            this.decryptBtn.Enabled = true;
+
+            this.Execute.Enabled = true;
         }
 
-        private async void decryptBtn_Click(object sender, EventArgs e)
+        private void decryptBtn_Click(object sender, EventArgs e)
         {
-            HttpClient client = new HttpClient();
-           var content = new StringContent(JsonConvert.SerializeObject(new DecryptionRequest() { privateKey = this.privateKey, encryptedString = this.textToDecrypt}), Encoding.UTF8, "application/json");
-            var res = await client.PostAsync("https://localhost:44355/api/Rsa", content);
-            this.decryptionText.Text = await res.Content.ReadAsStringAsync();
+            var rsa = new Rsa() { Key = this.privateKeyText.Text, Txt = this.txtText.Text };
+
+
+            this.decryptionText.Text = this.decryptRadioBtn.Checked ? rsa.Decrypt() : rsa.Encrypt();
+        }
+
+        private void rstBtn_Click(object sender, EventArgs e)
+        {
+            this.encryptRadioBtn.Checked = false;
+            this.decryptRadioBtn.Checked = false;
+            this.privateKeyText.Text = "";
+            this.importXMLBtn.Enabled = false;
+            this.txtText.Text = "";
+            this.importTxtBtn.Enabled = false;
+            this.Execute.Enabled = false;
+            this.decryptionText.Text = "";
+
+        }
+
+        private void encryptRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            this.importXMLBtn.Enabled = true;
+        }
+
+        private void decryptRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            this.importXMLBtn.Enabled = true;
+        }
+
+        private void privateKeyText_TextChanged(object sender, EventArgs e)
+        {
+            this.importTxtBtn.Enabled = true;
+        }
+
+        private void txtText_TextChanged(object sender, EventArgs e)
+        {
+            this.Execute.Enabled = true;
         }
     }
 }

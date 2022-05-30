@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{26FF9E4A-E460-4CB7-88DB-5F8399DAD9CA}</ProjectGuid>
+    <ProjectGuid>{C1BFD392-7818-495F-A1FC-D9A335DD13AC}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Backend</RootNamespace>
     <AssemblyName>Backend</AssemblyName>
@@ -43,9 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Rsa.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RSA.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
