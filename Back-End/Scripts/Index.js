@@ -1,12 +1,4 @@
-let privateKey, encryptedString, algoType;
-
-document
-  .getElementById("algo-select")
-  .addEventListener("change", ({ target }) => {
-    algoType = target.value;
-    document.getElementById("private-key").disabled = false;
-    document.getElementById("encrypt-key").disabled = false;
-  });
+let privateKey, encryptedString, algoType = "Rsa";
 
 function encryptGetPrivateKey({ target }) {
   const reader = new FileReader();
@@ -14,20 +6,8 @@ function encryptGetPrivateKey({ target }) {
   reader.onloadend = async () => {
     const xml = htmlDecode(String(reader.result));
 
-    switch (algoType) {
-      case "Rsa":
-        privateKey = getXmlNode(xml, "clavePrivada");
-        document.getElementById("private-key-text-encrypt").value = privateKey;
-        break;
-      case "ECDiffiehellman":
-        privateKey = {
-          IV: getXmlNode(xml, "IV"),
-          Key: getXmlNode(xml, "Key"),
-        };
-        break;
-      default:
-        break;
-    }
+    privateKey = getXmlNode(xml, "clavePrivada");
+    document.getElementById("private-key-text-encrypt").value = privateKey;
 
     document.getElementById("txt-to-encrypt").disabled = false;
   };
@@ -60,6 +40,12 @@ async function encrypt() {
   document.getElementById("txt").value = "";
   document.getElementById("txt").disabled = true;
   document.getElementById("private-key").value = "";
+
+  const hiddenElement = document.createElement('a');
+  hiddenElement.href = 'data:attachment/text,' + encodeURI(div.innerHTML);
+  hiddenElement.target = '_blank';
+  hiddenElement.download = 'encrypted.txt';
+  hiddenElement.click();
 }
 
 function decryptGetPrivateKey({ target }) {
@@ -68,19 +54,7 @@ function decryptGetPrivateKey({ target }) {
   reader.onloadend = async () => {
     const xml = htmlDecode(String(reader.result));
 
-    switch (algoType) {
-      case "Rsa":
-        privateKey = getXmlNode(xml, "clavePrivada");
-        break;
-      case "ECDiffiehellman":
-        privateKey = {
-          IV: getXmlNode(xml, "IV"),
-          Key: getXmlNode(xml, "Key"),
-        };
-        break;
-      default:
-        break;
-    }
+    privateKey = getXmlNode(xml, "clavePrivada");
 
     document.getElementById("private-key-text").value = privateKey;
     document.getElementById("txt").disabled = false;

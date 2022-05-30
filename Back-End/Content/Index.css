@@ -11,6 +11,10 @@
   grid-template-columns: repeat(3, 1fr);
 } */
 
+#txt-to-show {
+  word-break: break-all;
+}
+
 #actions-content {
   display: none;
 }
