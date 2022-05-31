@@ -10,19 +10,20 @@ namespace Frontend
 {
     class XmlHandler
     {
-        private static XmlDocument LoadXml(string path)
+        public string Path { get; set; }
+        private XmlDocument LoadXml()
         {
             var doc = new XmlDocument();
-            doc.Load(path);
+            doc.Load(this.Path);
 
             var parsedDoc = new XmlDocument();
             parsedDoc.LoadXml(doc.InnerXml);
             return parsedDoc;
         }
 
-        public static string LoadPrivateKey(string path)
+        public string LoadPrivateKey()
         {
-            return LoadXml(path).SelectSingleNode("//clavePrivada").InnerText;
+            return LoadXml().SelectSingleNode("//clavePrivada").InnerText;
         }
     }
 }

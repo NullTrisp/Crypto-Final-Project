@@ -26,7 +26,11 @@ namespace Frontend
 
         private void openFileXml_FileOk(object sender, CancelEventArgs e)
         {
-            this.privateKeyText.Text = XmlHandler.LoadPrivateKey(this.openFileXml.FileName);
+            var xml = new XmlHandler()
+            {
+                Path = this.openFileXml.FileName
+            };
+            this.privateKeyText.Text = xml.LoadPrivateKey();
 
             this.importTxtBtn.Enabled = true;
         }
