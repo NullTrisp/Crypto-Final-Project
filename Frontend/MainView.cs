@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Cryptography;
+using System.Security;
 
 namespace Frontend
 {
@@ -50,8 +52,19 @@ namespace Frontend
         {
             var rsa = new Rsa() { Key = this.privateKeyText.Text, Txt = this.txtText.Text };
 
+            try
+            {
+                this.decryptionText.Text = this.decryptRadioBtn.Checked ? rsa.Decrypt() : rsa.Encrypt();
+            }
+            catch (CryptographicException ex)
+            {
+                MessageBox.Show($"ERROR WHILE PERFORMING ACTION: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (XmlSyntaxException ex)
+            {
+                MessageBox.Show($"ERROR IN XML: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            this.decryptionText.Text = this.decryptRadioBtn.Checked ? rsa.Decrypt() : rsa.Encrypt();
+            }
         }
 
         private void rstBtn_Click(object sender, EventArgs e)
@@ -79,12 +92,26 @@ namespace Frontend
 
         private void privateKeyText_TextChanged(object sender, EventArgs e)
         {
-            this.importTxtBtn.Enabled = true;
+            if (this.decryptRadioBtn.Checked || this.encryptRadioBtn.Checked)
+            {
+                this.importTxtBtn.Enabled = true;
+            }
+            else
+            {
+                this.privateKeyText.Text = String.Empty;
+            }
         }
 
         private void txtText_TextChanged(object sender, EventArgs e)
         {
-            this.Execute.Enabled = true;
+            if ((this.decryptRadioBtn.Checked || this.encryptRadioBtn.Checked) && this.importTxtBtn.Enabled)
+            {
+                this.Execute.Enabled = true;
+            }
+            else
+            {
+                this.txtText.Text = string.Empty;
+            }
         }
     }
 }

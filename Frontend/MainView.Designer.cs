@@ -40,6 +40,8 @@ namespace Frontend
             this.encryptRadioBtn = new System.Windows.Forms.RadioButton();
             this.decryptRadioBtn = new System.Windows.Forms.RadioButton();
             this.rstBtn = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // openFileXml
@@ -50,10 +52,10 @@ namespace Frontend
             // 
             // privateKeyText
             // 
-            this.privateKeyText.Location = new System.Drawing.Point(12, 87);
+            this.privateKeyText.Location = new System.Drawing.Point(12, 172);
             this.privateKeyText.Name = "privateKeyText";
             this.privateKeyText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.privateKeyText.Size = new System.Drawing.Size(755, 187);
+            this.privateKeyText.Size = new System.Drawing.Size(755, 102);
             this.privateKeyText.TabIndex = 1;
             this.privateKeyText.Text = "";
             this.privateKeyText.TextChanged += new System.EventHandler(this.privateKeyText_TextChanged);
@@ -61,7 +63,7 @@ namespace Frontend
             // importXMLBtn
             // 
             this.importXMLBtn.Enabled = false;
-            this.importXMLBtn.Location = new System.Drawing.Point(345, 53);
+            this.importXMLBtn.Location = new System.Drawing.Point(335, 279);
             this.importXMLBtn.Margin = new System.Windows.Forms.Padding(2);
             this.importXMLBtn.Name = "importXMLBtn";
             this.importXMLBtn.Size = new System.Drawing.Size(95, 29);
@@ -73,7 +75,7 @@ namespace Frontend
             // importTxtBtn
             // 
             this.importTxtBtn.Enabled = false;
-            this.importTxtBtn.Location = new System.Drawing.Point(345, 279);
+            this.importTxtBtn.Location = new System.Drawing.Point(335, 376);
             this.importTxtBtn.Margin = new System.Windows.Forms.Padding(2);
             this.importTxtBtn.Name = "importTxtBtn";
             this.importTxtBtn.Size = new System.Drawing.Size(95, 29);
@@ -101,7 +103,7 @@ namespace Frontend
             // Execute
             // 
             this.Execute.Enabled = false;
-            this.Execute.Location = new System.Drawing.Point(345, 388);
+            this.Execute.Location = new System.Drawing.Point(271, 485);
             this.Execute.Margin = new System.Windows.Forms.Padding(2);
             this.Execute.Name = "Execute";
             this.Execute.Size = new System.Drawing.Size(95, 29);
@@ -122,7 +124,7 @@ namespace Frontend
             // encryptRadioBtn
             // 
             this.encryptRadioBtn.AutoSize = true;
-            this.encryptRadioBtn.Location = new System.Drawing.Point(12, 12);
+            this.encryptRadioBtn.Location = new System.Drawing.Point(12, 121);
             this.encryptRadioBtn.Name = "encryptRadioBtn";
             this.encryptRadioBtn.Size = new System.Drawing.Size(61, 17);
             this.encryptRadioBtn.TabIndex = 6;
@@ -134,7 +136,7 @@ namespace Frontend
             // decryptRadioBtn
             // 
             this.decryptRadioBtn.AutoSize = true;
-            this.decryptRadioBtn.Location = new System.Drawing.Point(12, 35);
+            this.decryptRadioBtn.Location = new System.Drawing.Point(12, 144);
             this.decryptRadioBtn.Name = "decryptRadioBtn";
             this.decryptRadioBtn.Size = new System.Drawing.Size(62, 17);
             this.decryptRadioBtn.TabIndex = 7;
@@ -145,7 +147,7 @@ namespace Frontend
             // 
             // rstBtn
             // 
-            this.rstBtn.Location = new System.Drawing.Point(345, 494);
+            this.rstBtn.Location = new System.Drawing.Point(412, 485);
             this.rstBtn.Margin = new System.Windows.Forms.Padding(2);
             this.rstBtn.Name = "rstBtn";
             this.rstBtn.Size = new System.Drawing.Size(95, 29);
@@ -154,11 +156,32 @@ namespace Frontend
             this.rstBtn.UseVisualStyleBackColor = true;
             this.rstBtn.Click += new System.EventHandler(this.rstBtn_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(264, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(243, 37);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "RSA Decryption";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 102);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(69, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Select action";
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 550);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.rstBtn);
             this.Controls.Add(this.decryptRadioBtn);
             this.Controls.Add(this.encryptRadioBtn);
@@ -190,6 +213,8 @@ namespace Frontend
         private System.Windows.Forms.RadioButton encryptRadioBtn;
         private System.Windows.Forms.RadioButton decryptRadioBtn;
         private System.Windows.Forms.Button rstBtn;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
