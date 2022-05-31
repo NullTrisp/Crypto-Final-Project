@@ -160,11 +160,11 @@ namespace Frontend
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(264, 27);
+            this.label1.Location = new System.Drawing.Point(302, 30);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(243, 37);
+            this.label1.Size = new System.Drawing.Size(154, 37);
             this.label1.TabIndex = 9;
-            this.label1.Text = "RSA Decryption";
+            this.label1.Text = "RSA Tool";
             // 
             // label2
             // 
