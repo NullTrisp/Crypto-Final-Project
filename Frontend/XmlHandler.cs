@@ -10,7 +10,7 @@ namespace Frontend
 {
     class XmlHandler
     {
-        public static XmlDocument LoadXml(string path)
+        private static XmlDocument LoadXml(string path)
         {
             var doc = new XmlDocument();
             doc.Load(path);
